@@ -10,6 +10,7 @@
         android:id="@+id/imageView6"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@+id/login"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintHorizontal_bias="0.557"
@@ -91,17 +92,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <Button
-        android:id="@+id/login"
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:backgroundTint="#FF0000"
-        android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:rippleColor="#DA1818" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
