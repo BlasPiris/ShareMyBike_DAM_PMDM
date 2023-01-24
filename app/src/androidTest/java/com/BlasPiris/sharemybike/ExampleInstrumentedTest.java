@@ -1,4 +1,4 @@
-package com.example.sharemybike;
+package com.BlasPiris.sharemybike;
 
 import android.content.Context;
 

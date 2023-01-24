@@ -1,4 +1,4 @@
-package com.example.sharemybike;
+package com.BlasPiris.sharemybike;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.sharemybike.bikes.BikesContent;
+import com.BlasPiris.sharemybike.bikes.BikesContent;
+import com.example.sharemybike.R;
 
 /**
  * A fragment representing a list of Items.

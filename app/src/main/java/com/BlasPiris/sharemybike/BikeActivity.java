@@ -1,4 +1,4 @@
-package com.example.sharemybike;
+package com.BlasPiris.sharemybike;
 
 import android.os.Bundle;
 
@@ -9,7 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.sharemybike.bikes.BikesContent;
+import com.BlasPiris.sharemybike.bikes.BikesContent;
+import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.ActivityBikeBinding;
 
 public class BikeActivity extends AppCompatActivity {

@@ -1,10 +1,9 @@
-package com.example.sharemybike;
+package com.BlasPiris.sharemybike;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sharemybike.bikes.BikesContent;
-import com.example.sharemybike.placeholder.PlaceholderContent.PlaceholderItem;
+import com.BlasPiris.sharemybike.pojos.Bike;
+import com.example.sharemybike.R;
+import com.BlasPiris.sharemybike.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.sharemybike.databinding.FragmentItemBinding;
 
 import java.util.List;
@@ -25,11 +25,11 @@ import java.util.List;
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     Context context;
-    private final List<BikesContent.Bike> mValues;
+    private final List<Bike> mValues;
     private final String date;
     
 
-    public MyItemRecyclerViewAdapter(List<BikesContent.Bike> items, String selectedDate) {
+    public MyItemRecyclerViewAdapter(List<Bike> items, String selectedDate) {
         mValues = items;
         date=selectedDate;
 
@@ -96,10 +96,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         ImageButton mBtnImg;
         ImageView imgBike;
         TextView txtCity,txtDescription, txtLocation, txtOwner;
-
-
-
-        public BikesContent.Bike mItem;
+        Bike mItem;
 
         public ViewHolder(FragmentItemBinding binding) {
             super(binding.getRoot());

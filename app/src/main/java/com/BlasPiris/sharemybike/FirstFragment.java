@@ -1,19 +1,16 @@
-package com.example.sharemybike;
-
-import static android.content.ContentValues.TAG;
+package com.BlasPiris.sharemybike;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {

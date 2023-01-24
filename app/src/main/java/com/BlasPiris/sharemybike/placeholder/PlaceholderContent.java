@@ -1,4 +1,4 @@
-package com.example.sharemybike.placeholder;
+package com.BlasPiris.sharemybike.placeholder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
