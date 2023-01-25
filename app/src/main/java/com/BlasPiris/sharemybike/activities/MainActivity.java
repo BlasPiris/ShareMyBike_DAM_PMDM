@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         finish();
-        Intent intent = new Intent(this, BikeActivity.class);
+        Intent intent = new Intent(this, MainPanelActivity.class);
         startActivity(intent);
     }
 
