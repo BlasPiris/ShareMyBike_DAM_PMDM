@@ -1,4 +1,4 @@
-package com.BlasPiris.sharemybike;
+package com.BlasPiris.sharemybike.activities;
 
 import android.os.Bundle;
 

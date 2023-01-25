@@ -1,4 +1,4 @@
-package com.BlasPiris.sharemybike;
+package com.BlasPiris.sharemybike.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,15 +13,11 @@ import android.widget.TextView;
 
 import com.BlasPiris.sharemybike.pojos.Bike;
 import com.example.sharemybike.R;
-import com.BlasPiris.sharemybike.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.sharemybike.databinding.FragmentItemBinding;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     Context context;

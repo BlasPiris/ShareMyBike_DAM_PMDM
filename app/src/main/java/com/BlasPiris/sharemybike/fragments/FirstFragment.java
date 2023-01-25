@@ -1,4 +1,4 @@
-package com.BlasPiris.sharemybike;
+package com.BlasPiris.sharemybike.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.BlasPiris.sharemybike.activities.BikeActivity;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentFirstBinding;
 
