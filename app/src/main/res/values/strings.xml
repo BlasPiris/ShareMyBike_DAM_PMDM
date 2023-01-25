@@ -9,5 +9,11 @@
 
     <string name="hello_first_fragment">Select the date to list the avaiable bikes</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="bpiris_pmdm_com">bpiris@pmdm.com</string>
+    <string name="av_real_f_brica_de_sedas_s_n">Av. Real Fábrica de Sedas, s/n</string>
+    <string name="the_bike_experience_exchange_app">The bike experience exchange app</string>
+    <string name="contentdescription">contentDescription</string>
+    <string name="contentdescription2">contentDescription</string>
+    <string name="contentdescription3">contentDescription3</string>
 
 </resources>
