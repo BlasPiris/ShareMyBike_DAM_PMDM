@@ -1,4 +1,4 @@
-package com.BlasPiris.sharemybike.activities.ui.gallery;
+package com.BlasPiris.sharemybike.activities.ui.dateSelection;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sharemybike.databinding.FragmentGalleryBinding;
 
-public class GalleryFragment extends Fragment {
+public class DateSelectionFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        GalleryViewModel galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+        DateSelectionViewModel availableViewModel =
+                new ViewModelProvider(this).get(DateSelectionViewModel.class);
 
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        availableViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

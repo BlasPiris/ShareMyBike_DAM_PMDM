@@ -1,16 +1,16 @@
-package com.BlasPiris.sharemybike.activities.ui.home;
+package com.BlasPiris.sharemybike.activities.ui.registerBike;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class RegisterBikeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public RegisterBikeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is REGISTER BIKES fragment");
     }
 
     public LiveData<String> getText() {

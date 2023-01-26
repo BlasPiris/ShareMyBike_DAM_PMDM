@@ -3,23 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/AvailableBikes">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.BlasPiris.sharemybike.activities.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:id="@+id/AvailableBikes"
+        android:name="com.BlasPiris.sharemybike.activities.ui.availableBikes.AvailableBikesFragment"
+        android:label="Available Bikes"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.BlasPiris.sharemybike.activities.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/DateSelection"
+        android:name="com.BlasPiris.sharemybike.activities.ui.dateSelection.DateSelectionFragment"
+        android:label="Date Selection"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.BlasPiris.sharemybike.activities.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/RegisterMyBike"
+        android:name="com.BlasPiris.sharemybike.activities.ui.registerBike.RegisterBikeFragment"
+        android:label="Register my Bike"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/BikesMap"
+        android:name="com.BlasPiris.sharemybike.activities.ui.availableMap.AvailableMapFragment"
+        android:label="Available Bikes Map"
+        tools:layout="@layout/fragment_home" />
+
 </navigation>

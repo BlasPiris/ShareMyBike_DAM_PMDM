@@ -1,16 +1,16 @@
-package com.BlasPiris.sharemybike.activities.ui.slideshow;
+package com.BlasPiris.sharemybike.activities.ui.availableMap;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class AvailableMapViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public AvailableMapViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is AVAILABLE BIKES MAP fragment");
     }
 
     public LiveData<String> getText() {
