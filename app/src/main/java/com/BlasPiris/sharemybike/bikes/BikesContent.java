@@ -19,16 +19,16 @@ import java.util.List;
 public class BikesContent {
 
     //List of all the bikes to be listed in the RecyclerView
-    public static List<Bike> ITEMS = new ArrayList<Bike>();
-    public static String selectedDate;
+    public  List<Bike> ITEMS = new ArrayList<Bike>();
+    //public  String selectedDate;
 
     //METODO QUE RECOGE LA FECHA DEL CALENDARIO
-    public static void setSelectedDate(String selectedDate) {
-        BikesContent.selectedDate = selectedDate;
-    }
+//    public  void setSelectedDate(String selectedDate) {
+//        BikesContent.selectedDate = selectedDate;
+//    }
 
     //METODO QUE CARGA LOS DATOS DEL JSON
-    public static void loadBikesFromJSON(Context c) {
+    public  void loadBikesFromJSON(Context c) {
 
         String json = null;
         try {
@@ -44,11 +44,15 @@ public class BikesContent {
             JSONArray couchList = jsonObject.getJSONArray("bike_list");
             for (int i = 0; i < couchList.length(); i++) {
                 JSONObject jsonCouch = couchList.getJSONObject(i);
+                String image=jsonCouch.getString("image");
                 String owner = jsonCouch.getString("owner");
                 String description = jsonCouch.getString("description");
                 String city = jsonCouch.getString("city");
                 String location = jsonCouch.getString("location");
                 String email = jsonCouch.getString("email");
+                Double longitude=jsonCouch.getDouble("longitude");
+                Double latitude=jsonCouch.getDouble("longitude");;
+
                 Bitmap photo = null;
                 try {
                     photo = BitmapFactory.decodeStream(
@@ -57,7 +61,8 @@ public class BikesContent {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ITEMS.add(new Bike(photo, owner, description, city, location, email));
+                ITEMS.add(new Bike(image, owner, description, city,longitude,latitude, location,photo, email));
+
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();

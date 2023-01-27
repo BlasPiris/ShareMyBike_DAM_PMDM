@@ -1,7 +1,5 @@
 package com.BlasPiris.sharemybike.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.BlasPiris.sharemybike.pojos.Bike;
 import com.example.sharemybike.R;
@@ -29,6 +29,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         mValues = items;
         date=selectedDate;
 
+    }
+
+
+    public MyItemRecyclerViewAdapter(List<Bike> items) {
+        mValues = items;
+        date=null;
     }
 
     @Override

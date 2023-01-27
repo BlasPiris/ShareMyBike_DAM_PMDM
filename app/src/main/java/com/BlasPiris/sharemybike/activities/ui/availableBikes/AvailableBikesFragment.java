@@ -8,33 +8,39 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.BlasPiris.sharemybike.adapters.MyItemRecyclerViewAdapter;
 import com.BlasPiris.sharemybike.bikes.BikesContent;
-import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentAvailablebikesBinding;
 
 public class AvailableBikesFragment extends Fragment {
 
     private FragmentAvailablebikesBinding binding;
-
     private int mColumnCount = 1;
+    BikesContent bikesContent;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        bikesContent=new BikesContent();
+        bikesContent.loadBikesFromJSON(getContext());
+        AvailableBikesViewModel availableViewModel =
+                new ViewModelProvider(this).get(AvailableBikesViewModel.class);
 
-//        AvailableBikesViewModel availableViewModel =
-//                new ViewModelProvider(this).get(AvailableBikesViewModel.class);
-//
-//        binding = FragmentAvailablebikesBinding.inflate(inflater, container, false);
-      //  View view = binding.getRoot();
+        binding = FragmentAvailablebikesBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
-        View view = inflater.inflate(R.layout.fragment_availablebikes, container, false);
+//        final TextView textView = binding.textGallery;
+//        availableViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        return root;
+    }
 
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         //GENERAMOS LOS RECYCLERVIEW DE LAS BICICLETAS
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -45,12 +51,8 @@ public class AvailableBikesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(BikesContent.ITEMS,BikesContent.selectedDate));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikesContent.ITEMS));
         }
-
-        return view;
-
-
     }
 
     @Override

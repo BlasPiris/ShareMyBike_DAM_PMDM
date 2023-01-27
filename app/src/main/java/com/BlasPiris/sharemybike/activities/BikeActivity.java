@@ -45,7 +45,7 @@ public class BikeActivity extends AppCompatActivity {
     }
 
     //METODO QUE RECOGE LA FECHA DEL CALENDARIO Y LO GUARDA EN LA CLASE BIKES cONTENT
-    public void setDate(String date) {
-        bc.setSelectedDate(date);
-    }
+//    public void setDate(String date) {
+//        bc.setSelectedDate(date);
+//    }
 }

@@ -4,29 +4,90 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sharemybike.databinding.FragmentGalleryBinding;
+import com.BlasPiris.sharemybike.bikes.BikesContent;
+import com.BlasPiris.sharemybike.pojos.Bike;
+import com.example.sharemybike.R;
+import com.example.sharemybike.databinding.FragmentAvailablemapBinding;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class AvailableMapFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+    private FragmentAvailablemapBinding binding;
+
+    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            GoogleMap mMap = googleMap;
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            PolylineOptions poly=new PolylineOptions();
+
+            BikesContent bikesContent=new BikesContent();
+            bikesContent.loadBikesFromJSON(getContext());
+
+
+            //for each bike in the list
+            for (Bike c : bikesContent.ITEMS) {
+
+                //gets its latitude and longitude
+                LatLng ll = new LatLng(Double.valueOf(c.getLatitude()), Double.valueOf(c.getLongitude()));
+                //adds a marker on the map
+                mMap.addMarker(new MarkerOptions().position(ll).title(c.getCity()).snippet(String.valueOf(c.getOwner())+"%"));
+                builder.include(ll);
+                //adds also a point in the polyline
+                poly.add(ll);
+            }
+            mMap.addPolyline(poly);
+
+            //LatLngBounds bounds = builder.build();
+//           CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+//            mMap.animateCamera(cu);
+        }
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         AvailableMapViewModel availableMapViewModel =
                 new ViewModelProvider(this).get(AvailableMapViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentAvailablemapBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGallery;
-        availableMapViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textGallery;
+//        availableMapViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
     }
 
     @Override
