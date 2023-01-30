@@ -1,6 +1,10 @@
 package com.BlasPiris.sharemybike.pojos;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.IOException;
 
 public class Bike {
 
@@ -117,5 +121,15 @@ public class Bike {
     }
 
     private String email;
+
+    public void setPhotoInBitmap(String urlPhoto, Context c){
+        Bitmap photo = null;
+        try {
+            photo = BitmapFactory.decodeStream(c.getAssets().open("images/" +urlPhoto));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.photo=photo;
+    }
 }
 

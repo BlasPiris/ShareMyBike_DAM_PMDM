@@ -51,7 +51,7 @@ public class BikesContent {
                 String location = jsonCouch.getString("location");
                 String email = jsonCouch.getString("email");
                 Double longitude=jsonCouch.getDouble("longitude");
-                Double latitude=jsonCouch.getDouble("longitude");;
+                Double latitude=jsonCouch.getDouble("latitude");;
 
                 Bitmap photo = null;
                 try {

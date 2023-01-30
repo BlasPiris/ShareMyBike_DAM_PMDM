@@ -8,7 +8,6 @@ import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sharemybike.databinding.FragmentDateselectionBinding;
 
@@ -18,14 +17,11 @@ public class DateSelectionFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DateSelectionViewModel availableViewModel =
-                new ViewModelProvider(this).get(DateSelectionViewModel.class);
+
 
         binding = FragmentDateselectionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        final TextView textView = binding.textGallery;
-//        availableViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

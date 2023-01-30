@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "187634558853",
+    "firebase_url": "https://sharemybike-9da45-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "sharemybike-9da45",
     "storage_bucket": "sharemybike-9da45.appspot.com"
   },
@@ -14,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "187634558853-mfqjghd1b2cvrde6jbllnqh91oqrjnpj.apps.googleusercontent.com",
+          "client_id": "187634558853-oc6cd0jud1ssunk9a35fb1fkd6ilmbbs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

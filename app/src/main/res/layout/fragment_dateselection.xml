@@ -36,8 +36,8 @@
             android:id="@+id/btnDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FF0000"
             android:enabled="false"
+            android:fontFamily="casual"
             android:text="Search" />
     </LinearLayout>
 

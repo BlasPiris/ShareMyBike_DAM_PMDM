@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,10 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient gsc;
 
     FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
 
 
 
@@ -39,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         login=findViewById(R.id.signInButton);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase= FirebaseDatabase.getInstance().getReference();
+
         gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
@@ -64,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 GoogleSignInAccount account=task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
-                goBikeActivity();
+
             } catch (ApiException e) {
                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
             }
@@ -77,30 +87,48 @@ public class MainActivity extends AppCompatActivity {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
        mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            //Log.d(TAG, "signInWithCredential:success");
+                        if (task.isSuccessful()) {
+                            goMainPanelActivity();
+                            registerUser(mAuth);
 //                    FirebaseUser user = mAuth.getCurrentUser();
-                          //updateUI(user);
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            //updateUI(null);
-//                        }
+//                          updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            //updateUI(null);
+                        }
                 });
     }
 
-    //METODO QUE REDIRIGE AL BIKE ACTIVITY
-    public void goBikeActivity(){
+    private void registerUser(FirebaseAuth mAuth) {
+        String idUser=mAuth.getCurrentUser().getUid();
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("uid",idUser);
+        map.put("name",mAuth.getCurrentUser().getDisplayName());
+        map.put("email",mAuth.getCurrentUser().getEmail());
+
+        mDatabase.child("user").child(idUser).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    //
+                }
+            }
+        });
+    }
+
+    //METODO QUE REDIRIGE AL MAIN PANEL ACTIVITY
+    public void goMainPanelActivity(){
 
         GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
         if(acct!=null){
-            Toast.makeText(this,acct.getDisplayName()+" "+acct.getEmail(),Toast.LENGTH_LONG).show();
+            finish();
+            Intent intent = new Intent(this, MainPanelActivity.class);
+            startActivity(intent);
         }
 
-        finish();
-        Intent intent = new Intent(this, MainPanelActivity.class);
-        startActivity(intent);
+
     }
 
 

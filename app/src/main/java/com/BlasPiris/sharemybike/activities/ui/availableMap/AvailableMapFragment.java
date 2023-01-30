@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.BlasPiris.sharemybike.bikes.BikesContent;
 import com.BlasPiris.sharemybike.pojos.Bike;
@@ -69,14 +68,10 @@ public class AvailableMapFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AvailableMapViewModel availableMapViewModel =
-                new ViewModelProvider(this).get(AvailableMapViewModel.class);
+
 
         binding = FragmentAvailablemapBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-//        final TextView textView = binding.textGallery;
-//        availableMapViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
