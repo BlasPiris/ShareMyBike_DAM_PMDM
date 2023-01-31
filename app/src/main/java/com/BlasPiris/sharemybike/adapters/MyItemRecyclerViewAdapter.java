@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.BlasPiris.sharemybike.pojos.Bike;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentItemBinding;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     Context context;
     private final List<Bike> mValues;
     private final String date;
+
+    FirebaseStorage storage;
     
 
     public MyItemRecyclerViewAdapter(List<Bike> items, String selectedDate) {
@@ -52,12 +55,27 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         String location=mValues.get(position).getLocation();
         String city=mValues.get(position).getCity();
         String email=mValues.get(position).getEmail();
+        String image=mValues.get(position).getImage();
         holder.txtCity.setText(city);
         holder.txtDescription.setText(mValues.get(position).getDescription());
         holder.txtLocation.setText(location);
         holder.txtOwner.setText(owner);
 
-       holder.imgBike.setImageBitmap(mValues.get(position).getPhoto());
+            System.out.println(image);
+            if(image!=null){
+//                storage= FirebaseStorage.getInstance();
+//                StorageReference storageRef = storage.getReference();
+//                StorageReference pathReference = storageRef.child("bikes/"+image);
+//                Glide.with(context)
+//                        .using(new FirebaseImageLoader())
+//                        .load(pathReference)
+//                        .into(holder.imgBike);
+
+                //holder.imgBike.setImageBitmap(pathReference.getFile();
+            }
+
+
+
 
 
 

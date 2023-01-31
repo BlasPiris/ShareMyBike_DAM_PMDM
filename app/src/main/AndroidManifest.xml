@@ -26,11 +26,6 @@
             android:label="@string/title_activity_main_panel"
             android:theme="@style/Theme.ShareMyBike.NoActionBar" />
         <activity
-            android:name="com.BlasPiris.sharemybike.activities.BikeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_bike"
-            android:theme="@style/Theme.ShareMyBike.NoActionBar" />
-        <activity
             android:name="com.BlasPiris.sharemybike.activities.MainActivity"
             android:exported="true">
             <intent-filter>

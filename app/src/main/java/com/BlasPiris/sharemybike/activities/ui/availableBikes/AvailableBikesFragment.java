@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.BlasPiris.sharemybike.adapters.MyItemRecyclerViewAdapter;
-import com.BlasPiris.sharemybike.bikes.BikesContent;
 import com.BlasPiris.sharemybike.pojos.Bike;
 import com.example.sharemybike.databinding.FragmentAvailablebikesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,16 +24,11 @@ import java.util.List;
 public class AvailableBikesFragment extends Fragment {
 
     private FragmentAvailablebikesBinding binding;
-    private int mColumnCount = 1;
-    BikesContent bikesContent;
     DatabaseReference mDatabase;
     List<Bike> bikes;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        bikesContent=new BikesContent();
-        bikesContent.loadBikesFromJSON(getContext());
 
         mDatabase= FirebaseDatabase.getInstance().getReference();
 
@@ -67,23 +61,20 @@ public class AvailableBikesFragment extends Fragment {
                         newBike.setOwner(ds.child("owner").getValue(String.class));
                         newBike.setPhotoInBitmap(ds.child("photo").getValue(String.class),getContext());
                         bikes.add(newBike);
+
                     }
-
-
-
+                    if (view instanceof RecyclerView) {
+                        RecyclerView recyclerView = (RecyclerView) view;
+                        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikes));
+                    }
                 }
                 else {
-
                     System.out.println( "Error getting data");
                 }
             }
         });
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            RecyclerView recyclerView = (RecyclerView) view;
 
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikes));
-        }
     }
 
     @Override

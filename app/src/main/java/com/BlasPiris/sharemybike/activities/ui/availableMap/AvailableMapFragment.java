@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.BlasPiris.sharemybike.bikes.BikesContent;
-import com.BlasPiris.sharemybike.pojos.Bike;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentAvailablemapBinding;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,10 +18,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AvailableMapFragment extends Fragment {
 
     private FragmentAvailablemapBinding binding;
+
+    DatabaseReference mDatabase;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -42,25 +47,32 @@ public class AvailableMapFragment extends Fragment {
 
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             PolylineOptions poly=new PolylineOptions();
-
-            BikesContent bikesContent=new BikesContent();
-            bikesContent.loadBikesFromJSON(getContext());
-
-
-            //for each bike in the list
-            for (Bike c : bikesContent.ITEMS) {
-
-                //gets its latitude and longitude
-                LatLng ll = new LatLng(Double.valueOf(c.getLatitude()), Double.valueOf(c.getLongitude()));
-                //adds a marker on the map
-                mMap.addMarker(new MarkerOptions().position(ll).title(c.getCity()).snippet(String.valueOf(c.getOwner())+"%"));
-                builder.include(ll);
-                //adds also a point in the polyline
-                poly.add(ll);
-            }
+            mDatabase= FirebaseDatabase.getInstance().getReference();
+            //GENERAMOS LOS RECYCLERVIEW DE LAS BICICLETAS
+            mDatabase.child("bike_list").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DataSnapshot dataSnapshot=task.getResult();
+                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Double latitude=ds.child("latitude").getValue(Double.class);
+                            Double longitude=ds.child("longitude").getValue(Double.class);
+                            String city=ds.child("city").getValue(String.class);
+                            String owner=ds.child("owner").getValue(String.class);
+                            LatLng ll = new LatLng(Double.valueOf(latitude), Double.valueOf(longitude));
+                            mMap.addMarker(new MarkerOptions().position(ll).title(city)
+                                    .snippet(owner));
+                            builder.include(ll);
+                            poly.add(ll);
+                        }
+                    }
+                }});
             mMap.addPolyline(poly);
 
-            //LatLngBounds bounds = builder.build();
+
+
+//    builder.include( new LatLng(Double.valueOf(10.0), Double.valueOf(11.0)));
+//     LatLngBounds bounds = builder.build();
 //           CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
 //            mMap.animateCamera(cu);
         }
