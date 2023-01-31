@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.BlasPiris.sharemybike.pojos.UserBooking;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.ActivityMainPanelBinding;
 import com.google.android.material.navigation.NavigationView;
@@ -20,6 +21,15 @@ public class MainPanelActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainPanelBinding binding;
+    private UserBooking userBooking;
+
+    public UserBooking getUserBooking() {
+        return userBooking;
+    }
+
+    public void setUserBooking(UserBooking userBooking) {
+        this.userBooking = userBooking;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,8 @@ public class MainPanelActivity extends AppCompatActivity {
 
         binding = ActivityMainPanelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        userBooking=new UserBooking();
 
         setSupportActionBar(binding.appBarMainPanel.toolbar);
         binding.appBarMainPanel.fab.setOnClickListener(new View.OnClickListener() {

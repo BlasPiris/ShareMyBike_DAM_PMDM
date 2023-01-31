@@ -2,6 +2,7 @@ package com.BlasPiris.sharemybike.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.BlasPiris.sharemybike.pojos.Bike;
+import com.bumptech.glide.Glide;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentItemBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -23,6 +28,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     Context context;
     private final List<Bike> mValues;
     private final String date;
+
+    FirebaseStorage storage;
     
 
     public MyItemRecyclerViewAdapter(List<Bike> items, String selectedDate) {
@@ -52,12 +59,32 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         String location=mValues.get(position).getLocation();
         String city=mValues.get(position).getCity();
         String email=mValues.get(position).getEmail();
+        String image=mValues.get(position).getImage();
         holder.txtCity.setText(city);
         holder.txtDescription.setText(mValues.get(position).getDescription());
         holder.txtLocation.setText(location);
         holder.txtOwner.setText(owner);
 
-       holder.imgBike.setImageBitmap(mValues.get(position).getPhoto());
+            System.out.println(image);
+            if(image!=null) {
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("bikes/" + image);
+
+                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        // Cargar la imagen en una vista de imagen usando Glide
+                        ImageView imageView = holder.imgBike;
+                        Glide.with(context.getApplicationContext())
+                                .load(uri.toString())
+                                .into(imageView);
+                    }
+                });
+
+
+            }
+
+
+
 
 
 

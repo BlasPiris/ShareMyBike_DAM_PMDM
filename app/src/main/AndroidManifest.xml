@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.sharemybike">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,15 +22,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
+
+
         <activity
             android:name="com.BlasPiris.sharemybike.activities.MainPanelActivity"
             android:exported="false"
             android:label="@string/title_activity_main_panel"
-            android:theme="@style/Theme.ShareMyBike.NoActionBar" />
-        <activity
-            android:name="com.BlasPiris.sharemybike.activities.BikeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_bike"
             android:theme="@style/Theme.ShareMyBike.NoActionBar" />
         <activity
             android:name="com.BlasPiris.sharemybike.activities.MainActivity"

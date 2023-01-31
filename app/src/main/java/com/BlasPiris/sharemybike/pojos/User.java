@@ -43,4 +43,14 @@ public class User {
             mInstance = new User();
         return mInstance;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", uid='" + uid + '\'' +
+                '}';
+    }
+
 }

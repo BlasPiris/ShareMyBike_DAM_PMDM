@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.BlasPiris.sharemybike.pojos.User;
 import com.example.sharemybike.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -102,17 +103,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerUser(FirebaseAuth mAuth) {
         String idUser=mAuth.getCurrentUser().getUid();
-
         Map<String,Object> map=new HashMap<>();
         map.put("uid",idUser);
         map.put("name",mAuth.getCurrentUser().getDisplayName());
         map.put("email",mAuth.getCurrentUser().getEmail());
 
+        User user=User.getInstance();
+        user.setUid(idUser);
+        user.setName((String) map.get("name"));
+        user.setEmail((String) map.get("email"));
+
         mDatabase.child("user").child(idUser).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    //
+
                 }
             }
         });
