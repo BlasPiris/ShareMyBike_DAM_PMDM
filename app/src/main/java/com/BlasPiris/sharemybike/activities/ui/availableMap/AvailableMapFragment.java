@@ -51,7 +51,7 @@ public class AvailableMapFragment extends Fragment {
             PolylineOptions poly=new PolylineOptions();
             mDatabase= FirebaseDatabase.getInstance().getReference();
             //GENERAMOS LOS RECYCLERVIEW DE LAS BICICLETAS
-            mDatabase.child("bike_list").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            mDatabase.child("bikes_list").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -66,12 +66,12 @@ public class AvailableMapFragment extends Fragment {
                                     .snippet(owner));
                             builder.include(ll);
                             poly.add(ll);
-
+                            mMap.addPolyline(poly);
+                            LatLngBounds bounds=builder.build();
+                            CameraUpdate cu= CameraUpdateFactory.newLatLngBounds(bounds,100);
+                            mMap.animateCamera(cu);
                         }
-                        mMap.addPolyline(poly);
-                        LatLngBounds bounds=builder.build();
-                        CameraUpdate cu= CameraUpdateFactory.newLatLngBounds(bounds,100);
-                        mMap.animateCamera(cu);
+
                     }
                 }});
 
