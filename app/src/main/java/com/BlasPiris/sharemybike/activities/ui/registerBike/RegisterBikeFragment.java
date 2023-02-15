@@ -2,6 +2,8 @@ package com.BlasPiris.sharemybike.activities.ui.registerBike;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -23,12 +25,18 @@ import com.BlasPiris.sharemybike.pojos.Bike;
 import com.BlasPiris.sharemybike.pojos.User;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentRegisterbikeBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class RegisterBikeFragment extends Fragment {
 
@@ -39,6 +47,9 @@ public class RegisterBikeFragment extends Fragment {
 
     TextView userInfo;
     EditText lat,lon;
+    
+    int CAMERA_PIC_REQUEST=100;
+    boolean changeImage=false;
 
 
 
@@ -73,9 +84,9 @@ public class RegisterBikeFragment extends Fragment {
         binding.imageViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent galery=new Intent(Intent.ACTION_PICK);
-                galery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-               getActivity().startActivityForResult(galery,100);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                getActivity().startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                changeImage=true;
             }
         });
 
@@ -116,8 +127,15 @@ public class RegisterBikeFragment extends Fragment {
     }
 
     private void saveBike(FragmentRegisterbikeBinding binding) {
+
         Bike newBike=new Bike();
         User user= User.getInstance();
+
+        DatabaseReference database= FirebaseDatabase.getInstance().getReference();
+        String key= database.child("bikes_list").push().getKey();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+
         newBike.setOwner(user.getName());
         newBike.setEmail(user.getEmail());
         newBike.setLongitude(Double.valueOf(String.valueOf(binding.longitude.getText())));
@@ -127,11 +145,27 @@ public class RegisterBikeFragment extends Fragment {
         newBike.setDescription(String.valueOf(binding.description.getText()));
 
 
-        DatabaseReference database= FirebaseDatabase.getInstance().getReference();
-        String key= database.child("bikes_list").push().getKey();
-        Map<String, Object> childUpdates = new HashMap<>();
-        database.child("bikes_list/"+key).setValue(newBike);
+        if(changeImage){
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("bikes");
+        Bitmap bitmap = ((BitmapDrawable) binding.imageViewRegister.getDrawable()).getBitmap();
+        String fileName = UUID.randomUUID().toString() + ".jpg";
+        StorageReference imageRef = storageRef.child(fileName);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
 
+        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            }
+        });
+
+        newBike.setImage(fileName);
+        }else{
+        newBike.setImage(null);
+        }
+        database.child("bikes_list/"+key).setValue(newBike);
     }
 
 

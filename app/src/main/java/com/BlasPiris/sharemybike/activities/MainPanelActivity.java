@@ -1,6 +1,7 @@
 package com.BlasPiris.sharemybike.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -21,10 +22,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainPanelActivity extends AppCompatActivity {
 
+    private static final int CAMERA_PIC_REQUEST = 100 ;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainPanelBinding binding;
     private UserBooking userBooking;
     ImageView imageView;
+    Bitmap image;
 
     public UserBooking getUserBooking() {
         return userBooking;
@@ -41,7 +44,7 @@ public class MainPanelActivity extends AppCompatActivity {
         binding = ActivityMainPanelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        imageView=findViewById(R.id.imageViewRegister);
+
 
         userBooking=new UserBooking();
 
@@ -82,11 +85,23 @@ public class MainPanelActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    @Override
+    //RECOGIDA FOTO DE LA CAMARA E INSERCION EN IMAGEVIEW
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100){
-            imageView.setImageURI(data.getData());
+        System.out.println("PASA");
+        if (requestCode == CAMERA_PIC_REQUEST) {
+            try
+            {
+                imageView=findViewById(R.id.imageViewRegister);
+                 image = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(image);
+
+            }catch(Exception e){
+                System.out.println("ERROR "+e);
+                return;
+            }
         }
     }
+
+
+
 }
