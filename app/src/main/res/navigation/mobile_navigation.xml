@@ -9,7 +9,12 @@
         android:id="@+id/AvailableBikes"
         android:name="com.BlasPiris.sharemybike.activities.ui.availableBikes.AvailableBikesFragment"
         android:label="Available Bikes"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+    <action
+        android:id="@+id/action_AvailableBikes_to_DateSelectionFragment"
+        app:destination="@id/DateSelection" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/DateSelection"

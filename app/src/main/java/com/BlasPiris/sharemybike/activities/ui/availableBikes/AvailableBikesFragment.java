@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.BlasPiris.sharemybike.activities.MainPanelActivity;
 import com.BlasPiris.sharemybike.adapters.MyItemRecyclerViewAdapter;
 import com.BlasPiris.sharemybike.pojos.Bike;
 import com.example.sharemybike.databinding.FragmentAvailablebikesBinding;
@@ -27,11 +28,12 @@ public class AvailableBikesFragment extends Fragment {
     DatabaseReference mDatabase;
     List<Bike> bikes;
 
+    private MainPanelActivity mpa;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         mDatabase= FirebaseDatabase.getInstance().getReference();
-
+        mpa= (MainPanelActivity) getActivity();
         binding = FragmentAvailablebikesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         return root;
@@ -39,16 +41,16 @@ public class AvailableBikesFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
          bikes=new ArrayList<>();
         //GENERAMOS LOS RECYCLERVIEW DE LAS BICICLETAS
-        mDatabase.child("bike_list").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("bikes_list").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
 
 
                     DataSnapshot dataSnapshot=task.getResult();
+                  System.out.println(dataSnapshot.getChildrenCount());
                     for(DataSnapshot ds : dataSnapshot.getChildren()) {
                         Bike newBike=new Bike();
                         newBike.setCity(ds.child("city").getValue(String.class));
@@ -65,7 +67,12 @@ public class AvailableBikesFragment extends Fragment {
                     }
                     if (view instanceof RecyclerView) {
                         RecyclerView recyclerView = (RecyclerView) view;
-                        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikes));
+                        if(mpa.getUserBooking().getBookDate()!=null){
+                            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikes,mpa.getUserBooking().getBookDate(),mpa));
+                        }else{
+                            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(bikes));
+                        }
+
                     }
                 }
                 else {

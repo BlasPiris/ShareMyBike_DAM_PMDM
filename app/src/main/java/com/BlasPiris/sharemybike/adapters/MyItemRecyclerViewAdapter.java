@@ -6,13 +6,18 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.BlasPiris.sharemybike.activities.MainPanelActivity;
 import com.BlasPiris.sharemybike.pojos.Bike;
+import com.BlasPiris.sharemybike.pojos.User;
 import com.bumptech.glide.Glide;
 import com.example.sharemybike.R;
 import com.example.sharemybike.databinding.FragmentItemBinding;
@@ -28,14 +33,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     Context context;
     private final List<Bike> mValues;
     private final String date;
+    MainPanelActivity mpa;
 
-    FirebaseStorage storage;
-    
-
-    public MyItemRecyclerViewAdapter(List<Bike> items, String selectedDate) {
+    public MyItemRecyclerViewAdapter(List<Bike> items, String selectedDate,MainPanelActivity mpa) {
         mValues = items;
         date=selectedDate;
-
+        this.mpa=mpa;
     }
 
 
@@ -43,6 +46,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         mValues = items;
         date=null;
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,8 +69,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.txtDescription.setText(mValues.get(position).getDescription());
         holder.txtLocation.setText(location);
         holder.txtOwner.setText(owner);
-
-            System.out.println(image);
             if(image!=null) {
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("bikes/" + image);
 
@@ -79,9 +82,40 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                                 .into(imageView);
                     }
                 });
-
-
             }
+
+                if(date!=null){
+                    holder.booking.setText("Booking");
+                    holder.booking.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            User user=User.getInstance();
+
+                        mpa.getUserBooking().setUserId(user.getUid());
+                        mpa.getUserBooking().setUserEmail(user.getEmail());
+                        mpa.getUserBooking().setBikeEmail(email);
+                        mpa.getUserBooking().setBikeCity(city);
+
+                        mpa.getUserBooking().addToDatabase();
+
+                        Toast.makeText(context, "Bike booked successfully", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }else{
+                    holder.booking.setText("Date");
+                    holder.booking.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //CAMBIAMOS EL FRAGMENT
+                            Navigation.createNavigateOnClickListener(R.id.action_AvailableBikes_to_DateSelectionFragment).onClick(holder.booking);
+
+                        }
+                    });
+                }
+
+
+
 
 
 
@@ -106,12 +140,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
         i.putExtra(Intent.EXTRA_SUBJECT, "ShareMyBike");
-        i.putExtra(Intent.EXTRA_TEXT   , "Dear Mr/Mrs "+owner+" :\n" +
-                "I'd like to use your bike at "+location+" ("+city+")\n" +
-                "for the following date: "+date+"\n" +
-                "Can you confirm its availability?\n" +
-                "Kindest regards");
 
+        if(date!=null){
+            i.putExtra(Intent.EXTRA_TEXT   , "Dear Mr/Mrs "+owner+" :\n" +
+                    "I'd like to use your bike at "+location+" ("+city+")\n" +
+                    "for the following date: "+date+"\n" +
+                    "Can you confirm its availability?\n" +
+                    "Kindest regards");
+        }else{
+            i.putExtra(Intent.EXTRA_TEXT   , "Dear Mr/Mrs "+owner+" :\n" +
+                    "I'd like to use your bike at "+location+" ("+city+")\n" +
+                    "Can you confirm its availability?\n" +
+                    "Kindest regards");
+        }
             context.startActivity(Intent.createChooser(i, "Send mail..."));
     }
 
@@ -123,6 +164,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageButton mBtnImg;
+        Button booking;
         ImageView imgBike;
         TextView txtCity,txtDescription, txtLocation, txtOwner;
         Bike mItem;
@@ -135,16 +177,14 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             txtDescription=binding.txtDescription;
             txtLocation=binding.txtLocation;
             txtOwner=binding.txtOwner;
+            booking=binding.booking;
 
 
 
-//            mContentView = binding.content;
+
+
         }
 
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mContentView.getText() + "'";
-//        }
     }
 
 

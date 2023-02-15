@@ -1,8 +1,10 @@
 package com.BlasPiris.sharemybike.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -22,6 +24,7 @@ public class MainPanelActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainPanelBinding binding;
     private UserBooking userBooking;
+    ImageView imageView;
 
     public UserBooking getUserBooking() {
         return userBooking;
@@ -38,7 +41,11 @@ public class MainPanelActivity extends AppCompatActivity {
         binding = ActivityMainPanelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        imageView=findViewById(R.id.imageViewRegister);
+
         userBooking=new UserBooking();
+
+
 
         setSupportActionBar(binding.appBarMainPanel.toolbar);
         binding.appBarMainPanel.fab.setOnClickListener(new View.OnClickListener() {
@@ -73,5 +80,13 @@ public class MainPanelActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_panel);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100){
+            imageView.setImageURI(data.getData());
+        }
     }
 }

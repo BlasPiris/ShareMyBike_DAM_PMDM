@@ -1,12 +1,17 @@
 package com.BlasPiris.sharemybike.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.BlasPiris.sharemybike.pojos.User;
 import com.example.sharemybike.R;
@@ -57,8 +62,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         //EVENTO DEL BOTON LOGIN
-        login.setOnClickListener(view -> signIn()
-        );
+        login.setOnClickListener(view -> signIn());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                Log.i("Permisos", "Se tienen los permisos!");
+            } else {
+                ActivityCompat.requestPermissions(
+                        MainActivity.this, new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION }, 1222);
+            }
+        }
     }
 
     private void signIn() {
